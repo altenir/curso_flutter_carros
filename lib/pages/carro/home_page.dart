@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:carros/pages/carro/carros_api.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +22,18 @@ class HomePage extends StatelessWidget {
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print(snapshot.error);
+          return Center(
+            child: Text(
+              "Não foi possivel buscar os carros",
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 22,
+              ),
+            ),
+          );
+        }
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(),
@@ -52,7 +62,8 @@ class HomePage extends StatelessWidget {
                 children: <Widget>[
                   Center(
                     child: Image.network(
-                      c.urlFoto,
+                      c.urlFoto ??
+                          "https://s3-sa-east-1.amazonaws.com/videos.livetouchdev.com.br/classicos/Cadillac_Eldorado.png",
                       width: 250,
                     ),
                   ),
