@@ -1,3 +1,6 @@
+import 'package:carros/utils/prefs.dart';
+import 'dart:convert' as convert;
+
 class Usuario {
   int id;
   String login;
@@ -36,5 +39,23 @@ class Usuario {
     data['token'] = this.token;
     data['roles'] = this.roles;
     return data;
+  }
+
+  void save() {
+    Map map = toJson();
+    String json = convert.json.encode(map);
+    Prefs.setString("user.prefs", json);
+  }
+
+  static Future<Usuario> get() async {
+    String json = await Prefs.getString("user.prefs");
+    Map map = convert.json.decode(json);
+    Usuario user = Usuario.fromJson(map);
+    return user;
+  }
+
+  @override
+  String toString() {
+    return 'Usuario{login: $login, nome: $nome, email: $email, urlFoto: $urlFoto, token: $token, roles: $roles}';
   }
 }

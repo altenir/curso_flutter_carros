@@ -42,33 +42,36 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Carros"),
-        bottom: TabBar(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Carros"),
+          bottom: TabBar(
+            controller: _tabController,
+            tabs: [
+              Tab(
+                text: "Classicos",
+              ),
+              Tab(
+                text: "Esportivos",
+              ),
+              Tab(
+                text: "Luxo",
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
           controller: _tabController,
-          tabs: [
-            Tab(
-              text: "Classicos",
-            ),
-            Tab(
-              text: "Esportivos",
-            ),
-            Tab(
-              text: "Luxo",
-            ),
+          children: [
+            CarrosListView(TipoCarro.classicos),
+            CarrosListView(TipoCarro.esportivos),
+            CarrosListView(TipoCarro.luxo),
           ],
         ),
+        drawer: DrawerList(),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          CarrosListView(TipoCarro.classicos),
-          CarrosListView(TipoCarro.esportivos),
-          CarrosListView(TipoCarro.luxo),
-        ],
-      ),
-      drawer: DrawerList(),
     );
   }
 }
