@@ -1,5 +1,7 @@
 import 'package:carros/pages/carro/Carro.dart';
+import 'package:carros/pages/carro/carro_page.dart';
 import 'package:carros/pages/carro/carros_api.dart';
+import 'package:carros/utils/nav.dart';
 import 'package:flutter/material.dart';
 
 class CarrosListView extends StatefulWidget {
@@ -18,6 +20,7 @@ class _CarrosListViewState extends State<CarrosListView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    print("CarroListView build ${widget.tipo}");
     return _body();
   }
 
@@ -89,7 +92,7 @@ class _CarrosListViewState extends State<CarrosListView>
                     children: <Widget>[
                       TextButton(
                         child: const Text('DETALHES'),
-                        onPressed: () {/* ... */},
+                        onPressed: () => _onClickCarro(c),
                       ),
                       const SizedBox(width: 8),
                       TextButton(
@@ -113,5 +116,9 @@ class _CarrosListViewState extends State<CarrosListView>
         },
       ),
     );
+  }
+
+  _onClickCarro(Carro c) {
+    push(context, CarroPage(c));
   }
 }

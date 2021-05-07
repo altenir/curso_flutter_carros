@@ -42,6 +42,8 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    print("Home buld");
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
