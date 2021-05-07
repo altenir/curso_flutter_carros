@@ -17,17 +17,26 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    // controle de estado da Tab
+
+    _initTabs();
+  }
+
+  _initTabs() async {
+    // Primeiro busca o índice nas prefs.
+    int tabIdx = await Prefs.getInt("tabIdx");
+
+    // Depois cria o TabController
+    // No método build na primeira vez ele poderá estar nulo
     _tabController = TabController(length: 3, vsync: this);
 
-    Future<int> future = Prefs.getInt("tabIndex");
-
-    future.then((int tabIndex) {
-      _tabController.index = tabIndex;
+    // Agora que temos o TabController e o índice da tab,
+    // chama o setState para redesenhar a tela
+    setState(() {
+      _tabController.index = tabIdx;
     });
 
     _tabController.addListener(() {
-      Prefs.setInt("tabIindex", _tabController.index);
+      Prefs.setInt("tabIdx", _tabController.index);
     });
   }
 

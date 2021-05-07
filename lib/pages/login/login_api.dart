@@ -23,6 +23,7 @@ class LoginApi {
       // String email = mapResponse["email"];
       if (response.statusCode == 200) {
         final user = Usuario.fromJson(mapResponse);
+
         return ApiResponse.ok(user);
       }
       return ApiResponse.error(mapResponse["error"]);
