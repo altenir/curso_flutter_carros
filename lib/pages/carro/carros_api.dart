@@ -2,8 +2,6 @@ import 'dart:convert' as convert;
 import 'package:carros/pages/carro/Carro.dart';
 import 'package:http/http.dart' as http;
 
-import 'CarroTipo.dart';
-
 class CarrosApi {
   static Future<List<Carro>> getCarros(String tipo) async {
     String s = tipo.toString().replaceAll("TipoCarro.", "");
