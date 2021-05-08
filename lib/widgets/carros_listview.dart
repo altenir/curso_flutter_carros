@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:carros/pages/carro/Carro.dart';
 import 'package:carros/pages/carro/carro_page.dart';
 import 'package:carros/pages/carro/carros_api.dart';
@@ -14,8 +15,22 @@ class CarrosListView extends StatefulWidget {
 
 class _CarrosListViewState extends State<CarrosListView>
     with AutomaticKeepAliveClientMixin<CarrosListView> {
+  List<Carro> carros;
+  final _streamController = StreamController<List<Carro>>();
+
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCarros();
+  }
+
+  _loadCarros() async {
+    List<Carro> carros = await CarrosApi.getCarros(widget.tipo);
+    _streamController.add(carros);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +40,11 @@ class _CarrosListViewState extends State<CarrosListView>
   }
 
   _body() {
-    Future<List<Carro>> future = CarrosApi.getCarros(widget.tipo);
-
-    return FutureBuilder(
-      future: future,
+    return StreamBuilder(
+      stream: _streamController.stream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print(snapshot.error);
+          // print(snapshot.error);
           return Center(
             child: Text(
               "Não foi possivel buscar os carros",
@@ -120,5 +133,11 @@ class _CarrosListViewState extends State<CarrosListView>
 
   _onClickCarro(Carro c) {
     push(context, CarroPage(c));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _streamController.close();
   }
 }
